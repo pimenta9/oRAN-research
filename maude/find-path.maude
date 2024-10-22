@@ -1,0 +1,14 @@
+fmod FIND-PATH is
+    including GRAPH .
+
+    op findPath : NodeId NodeIdSet Graph -> Bool
+
+    vars N N1 : NodeId .
+    vars NBS NBS2 : NodeIdSet .
+    var NS : Graph .
+    var NODE : Node .
+
+    eq findPath (N, N1 NBS, (node: N1 nbs: NBS2) ; NS) =
+        --- to be continued
+
+endfm
