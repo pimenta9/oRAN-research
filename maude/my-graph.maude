@@ -1,8 +1,9 @@
 fmod GRAPH is
+    protecting STRING .
 
     sort NodeId .
     sort NodeIdSet .
-    subsort NodeId < NodeIdSet .
+    subsort String < NodeId < NodeIdSet .
     op none : -> NodeIdSet [ctor] .
     op _ _ : NodeIdSet NodeIdSet -> NodeIdSet [ctor assoc comm id: none] .
 
