@@ -1,0 +1,61 @@
+fmod REACH is
+    including GRAPH .
+
+    ---   current    set of
+    --- or source    reached                reachable
+    ---      node   nodes so far   graph    nodes
+    op alc : Node    NodeIdSet     Graph -> NodeIdSet .
+
+    vars N N1 : NodeId .
+    vars NBS NBS2 S : NodeIdSet .
+    var NS : Graph .
+    var NODE : Node .
+
+    --- if the next node (N1) wasn't reached yet, do:
+    ceq alc ((node: N nbs: N1 NBS), S, (node: N1 nbs: NBS2) ; NS)
+    = alc ((node: N1 nbs: NBS2 NBS), S N1, (node: N1 nbs: NBS2) ; NS)
+    if not (N1 in S) .
+
+    --- if the next node (N1) was already reached, do:
+    ceq alc ((node: N nbs: N1 NBS), S, NS)
+    = alc ((node: N nbs: NBS), S, NS)
+    if (N1 in S) .
+
+    eq alc ((node: N nbs: none), S, NS) = S .
+
+    op _ in _ : NodeId NodeIdSet -> Bool .
+    eq N in (N1 NBS) = (N == N1) or (N in NBS) .
+    eq N in none = false .
+
+endfm
+
+--- exemplos da Fig. 6 do PACIFISTA
+red 
+alc
+(
+    (node: "a1" nbs: "p1" "p2"),
+    none,
+    (
+        (node: "a1" nbs: "p1" "p2") ;
+        (node: "a2" nbs: "p2" "p3") ;
+        (node: "p1" nbs: "p3") ;
+        (node: "p2" nbs: none) ;
+        (node: "p3" nbs: none)
+    )
+)
+ .
+
+red 
+alc
+(
+    (node: "a2" nbs: "p2" "p3"),
+    none,
+    (
+        (node: "a1" nbs: "p1" "p2") ;
+        (node: "a2" nbs: "p2" "p3") ;
+        (node: "p1" nbs: "p3") ;
+        (node: "p2" nbs: none) ;
+        (node: "p3" nbs: none)
+    )
+)
+ .
